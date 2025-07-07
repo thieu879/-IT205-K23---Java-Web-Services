@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý sản phẩm</title>
+</head>
+<body>
+<h1>Danh sách sản phẩm</h1>
+<button onclick="ShowSaveForm()">Thêm sản phẩm</button>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Tên sản phẩm</th>
+        <th>Giá</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}">ID</td>
+        <td th:text="${product.name}">Tên</td>
+        <td th:text="${product.price}">Giá</td>
+        <td>
+            <form th:action="@{'/products/delete/' + ${product.id}}" method="post" style="display:inline;">
+                <button type="submit">Xóa</button>
+            </form>
+            <button type="button"
+                    th:attr="data-id=${product.id}, data-name=${product.name}, data-price=${product.price}"
+                    onclick="showEditForm(this)">
+                Sửa
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div id="saveForm" style="display:none; margin-top:20px;">
+    <h2>Thêm sản phẩm mới</h2>
+    <form th:action="@{/products}" method="post">
+        <label for="name">Tên sản phẩm:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="price">Giá:</label>
+        <input type="number" id="price" name="price" step="0.01" required>
+        <button type="submit">Thêm</button>
+        <button onclick="hideSaveForm()">Hủy</button>
+    </form>
+</div>
+
+<div id="editForm" style="display:none; margin-top:20px;">
+    <h2>Cập nhật sản phẩm</h2>
+    <form id="updateProductForm" method="post">
+        <input type="hidden" id="editId" name="id">
+        <label for="editName">Tên sản phẩm:</label>
+        <input type="text" id="editName" name="name" required>
+        <label for="editPrice">Giá:</label>
+        <input type="number" id="editPrice" name="price" step="0.01" required>
+        <button type="submit">Cập nhật</button>
+        <button type="button" onclick="hideEditForm()">Hủy</button>
+    </form>
+</div>
+
+<script>
+    function showEditForm(btn) {
+        var id = btn.getAttribute('data-id');
+        var name = btn.getAttribute('data-name');
+        var price = btn.getAttribute('data-price');
+        document.getElementById('editForm').style.display = 'block';
+        document.getElementById('editId').value = id;
+        document.getElementById('editName').value = name;
+        document.getElementById('editPrice').value = price;
+        document.getElementById('updateProductForm').action = '/products/' + id;
+    }
+    function hideEditForm() {
+        document.getElementById('editForm').style.display = 'none';
+    }
+    function hideSaveForm() {
+        document.getElementById('saveForm').style.display = 'none';
+    }
+    function ShowSaveForm() {
+        document.getElementById('saveForm').style.display = 'block';
+    }
+</script>
+</body>
+</html>
