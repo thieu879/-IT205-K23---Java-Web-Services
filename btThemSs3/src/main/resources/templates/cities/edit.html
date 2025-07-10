@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sửa Thành phố</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <i class="fas fa-globe"></i> Quản lý Địa lý
+        </a>
+        <div class="navbar-nav">
+            <a class="nav-link" th:href="@{/countries}">
+                <i class="fas fa-flag"></i> Quốc gia
+            </a>
+            <a class="nav-link active" th:href="@{/cities}">
+                <i class="fas fa-city"></i> Thành phố
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/cities}">Thành phố</a></li>
+            <li class="breadcrumb-item active">Chỉnh sửa</li>
+        </ol>
+    </nav>
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-edit"></i> Chỉnh sửa Thành phố</h2>
+        <a th:href="@{/cities}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Quay lại
+        </a>
+    </div>
+
+    <!-- Form -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form th:action="@{/cities/edit/{id}(id=${city.cityId})}"
+                          th:object="${city}" method="post">
+                        <div class="mb-3">
+                            <label for="cityName" class="form-label">Tên thành phố <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="cityName"
+                                   th:field="*{cityName}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="countryId" class="form-label">Quốc gia <span class="text-danger">*</span></label>
+                            <select class="form-select" id="countryId" th:field="*{countryId}" required>
+                                <option value="">-- Chọn quốc gia --</option>
+                                <option th:each="country : ${countries}"
+                                        th:value="${country.countryId}"
+                                        th:text="${country.countryName}"
+                                        th:selected="${country.countryId == city.countryId}"></option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="sesson" class="form-label">Mùa</label>
+                            <select class="form-select" id="sesson" th:field="*{sesson}">
+                                <option value="">-- Chọn mùa --</option>
+                                <option value="Xuân">Xuân</option>
+                                <option value="Hạ">Hạ</option>
+                                <option value="Thu">Thu</option>
+                                <option value="Đông">Đông</option>
+                                <option value="Nhiệt đới">Nhiệt đới</option>
+                                <option value="Ôn đới">Ôn đới</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="area" class="form-label">Diện tích (km²)</label>
+                            <input type="number" class="form-control" id="area"
+                                   th:field="*{area}" step="0.01" min="0">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="population" class="form-label">Dân số</label>
+                            <input type="number" class="form-control" id="population"
+                                   th:field="*{population}" min="0">
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a th:href="@{/cities}" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-times"></i> Hủy
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Cập nhật
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
