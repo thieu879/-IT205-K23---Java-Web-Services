@@ -22,7 +22,7 @@ public class ClassesController {
         return ResponseEntity.ok(response);
     }
     @PostMapping
-    public ResponseEntity<DataResponse<Classes>> createClass(Classes classes) {
+    public ResponseEntity<DataResponse<Classes>> createClass(@RequestBody Classes classes) {
         Classes savedClass = classesService.save(classes);
         DataResponse<Classes> response = new DataResponse<>(savedClass, HttpStatus.CREATED);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
