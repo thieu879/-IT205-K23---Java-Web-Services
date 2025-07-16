@@ -17,7 +17,7 @@ public class ProductDetail {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id")
     private Product product;
 
     @Column(name = "year_making")
@@ -25,7 +25,6 @@ public class ProductDetail {
 
     private String color;
 
-    @Column(nullable = false)
     private Double price;
 
     private String size;
